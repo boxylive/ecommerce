@@ -14,3 +14,12 @@ You need to run containers :
 ```bash
 docker compose up -d
 ```
+
+## Testing
+
+We use a database sqlite for testing.
+
+```bash
+php bin/console --env=test d:d:c
+php bin/console --env=test d:s:c
+```

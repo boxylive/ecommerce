@@ -4,4 +4,11 @@
 
 {% block body %}
     <h1>Ecommerce</h1>
+
+    <div>
+        {% for product in products %}
+            <h2>{{ product.name }}</h2>
+            <img src="{{ product.image }}" alt="{{ product.name }}">
+        {% endfor %}
+    </div>
 {% endblock %}
