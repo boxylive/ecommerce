@@ -4,12 +4,12 @@ Un projet ecommerce avec Symfony 7. On démarre ça et on verra jusqu'où on va.
 
 ## Installation
 
-You need to install :
+Vous avez besoin d'installer :
 
 - Docker
 - PHP 8.2
 
-You need to run containers :
+Vous devez lancer les containers Docker :
 
 ```bash
 docker compose up -d
@@ -17,7 +17,7 @@ docker compose up -d
 
 ## Testing
 
-We use a database sqlite for testing.
+On utilise une base de données SQLite pour les tests.
 
 ```bash
 php bin/console --env=test d:d:c
