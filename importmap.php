@@ -25,4 +25,7 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'alpinejs' => [
+        'version' => '3.14.0',
+    ],
 ];
