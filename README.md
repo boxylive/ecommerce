@@ -1,0 +1,3 @@
+# Ecommerce
+
+Un projet ecommerce avec Symfony 7. On démarre ça et on verra jusqu'où on va...
