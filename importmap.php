@@ -28,4 +28,7 @@ return [
     'alpinejs' => [
         'version' => '3.14.0',
     ],
+    '@symfony/ux-live-component' => [
+        'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
+    ],
 ];
