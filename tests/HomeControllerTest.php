@@ -26,7 +26,7 @@ class HomeControllerTest extends WebTestCase
 
         // Assert
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Ecommerce');
+        $this->assertSelectorTextContains('span', 'Ecommerce');
         $this->assertSelectorTextContains('h2', 'Produit 1');
         $this->assertEquals('Produit 2', $crawler->filter('h2')->last()->text());
     }
