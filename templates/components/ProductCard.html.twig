@@ -1,0 +1,12 @@
+<div{{ attributes.defaults({ class: 'rounded-lg border border-gray-200 flex flex-col' }) }}>
+    <div>
+        <img class="rounded-t-lg mb-2" src="{{ product.image }}" alt="{{ product.name }}">
+    </div>
+    <div class="p-4 space-y-3 h-full flex flex-col justify-between">
+        <h3 class="text-sm font-medium text-gray-900">{{ product.name }}</h3>
+        <div class="desc text-sm text-gray-500">
+            {{ product.description | u.truncate(50, '...', false) }}
+        </div>
+        <p class="font-medium text-gray-900">{{ (product.price / 100) | format_currency('EUR') }} HT</p>
+    </div>
+</div>

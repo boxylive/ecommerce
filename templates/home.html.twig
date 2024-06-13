@@ -3,12 +3,9 @@
 {% block title %}Ecommerce{% endblock %}
 
 {% block body %}
-    <h1>Ecommerce</h1>
-
-    <div>
+    <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
         {% for product in products %}
-            <h2>{{ product.name }}</h2>
-            <img src="{{ product.image }}" alt="{{ product.name }}">
+            <twig:ProductCard :product="product" />
         {% endfor %}
     </div>
 {% endblock %}

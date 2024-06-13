@@ -15,19 +15,21 @@ class HomeControllerTest extends WebTestCase
     {
         // Arrange
         ProductFactory::createSequence([
-            ['name' => 'Produit 1'],
-            ['name' => 'Produit 2'],
+            ['name' => 'Produit 1', 'description' => 'Dolor totam quidem itaque ipsum sequi odio deleniti libero suscipit'],
+            ['name' => 'Produit 2', 'price' => 1899],
         ]);
 
         // Act
-        static::ensureKernelShutdown();
+        static::ensureKernelShutdown(); // @todo maybe create client before each tests
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
 
         // Assert
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('span', 'Ecommerce');
-        $this->assertSelectorTextContains('h2', 'Produit 1');
-        $this->assertEquals('Produit 2', $crawler->filter('h2')->last()->text());
+        $this->assertSelectorTextContains('h3', 'Produit 1');
+        $this->assertStringContainsString('Dolor totam quidem itaque ipsum sequi odio deleniti...', $crawler->text());
+        $this->assertEquals('Produit 2', $crawler->filter('h3')->last()->text());
+        $this->assertStringContainsString('18,99 € HT', $crawler->text());
     }
 }
