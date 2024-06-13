@@ -15,6 +15,13 @@ Vous devez lancer les containers Docker :
 docker compose up -d
 ```
 
+Vous devez lancer les migrations :
+
+```bash
+symfony console d:m:m
+symfony console d:f:l
+```
+
 ## Frontend
 
 Pour le front, on est parti sur AssetMapper de Symfony... Du coup, pour travailler avec Tailwind :
