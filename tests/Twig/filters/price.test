@@ -1,0 +1,13 @@
+--TEST--
+"price" filter
+
+--TEMPLATE--
+{{ 1999|price }}
+{{ 1000|price(20) }}
+
+--DATA--
+return []
+
+--EXPECT--
+19.99
+12
