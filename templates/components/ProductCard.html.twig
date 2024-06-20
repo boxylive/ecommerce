@@ -7,6 +7,6 @@
         <div class="desc text-sm text-gray-500">
             {{ product.description | u.truncate(50, '...', false) }}
         </div>
-        <p class="font-medium text-gray-900">{{ (product.price / 100) | format_currency('EUR') }} HT</p>
+        <p class="font-medium text-gray-900">{{ product.price | price(20) | format_currency('EUR') }} TTC</p>
     </div>
 </div>

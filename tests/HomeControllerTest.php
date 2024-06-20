@@ -16,7 +16,7 @@ class HomeControllerTest extends WebTestCase
         // Arrange
         ProductFactory::createSequence([
             ['name' => 'Produit 1', 'description' => 'Dolor totam quidem itaque ipsum sequi odio deleniti libero suscipit'],
-            ['name' => 'Produit 2', 'price' => 1899],
+            ['name' => 'Produit 2', 'price' => 1000],
         ]);
 
         // Act
@@ -30,6 +30,6 @@ class HomeControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h3', 'Produit 1');
         $this->assertStringContainsString('Dolor totam quidem itaque ipsum sequi odio deleniti...', $crawler->text());
         $this->assertEquals('Produit 2', $crawler->filter('h3')->last()->text());
-        $this->assertStringContainsString('18,99 € HT', $crawler->text());
+        $this->assertStringContainsString('12,00 € TTC', $crawler->text());
     }
 }
