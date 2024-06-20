@@ -20,7 +20,7 @@ class HomeControllerTest extends WebTestCase
         ]);
 
         // Act
-        static::ensureKernelShutdown(); // @todo maybe create client before each tests
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
 

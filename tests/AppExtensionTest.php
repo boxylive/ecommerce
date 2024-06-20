@@ -11,6 +11,7 @@ class AppExtensionTest extends IntegrationTestCase
 {
     public function getExtensions(): array
     {
+        // @todo test why 1 test skipped ?....
         return [new AppExtension()];
     }
 
