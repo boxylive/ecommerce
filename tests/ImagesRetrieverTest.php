@@ -27,15 +27,15 @@ class ImagesRetrieverTest extends TestCase
         $imagesRetriever = new ImagesRetriever(
             new MockHttpClient([
                 $response = new MockResponse(json_encode([
-                    ['images' => ['https://i.imgur.com/a', 'b']],
-                    ['images' => ['https://i.imgur.com/c', 'd']],
-                    ['images' => ['e', 'https://i.imgur.com/f']],
+                    ['images' => ['["https://i.imgur.com/a', 'b']],
+                    ['images' => ['https://i.imgur.com/c"', 'd']],
+                    ['images' => ['e', '["https://i.imgur.com/f']],
                 ])),
                 $response,
             ])
         );
 
-        $this->assertEquals($imagesRetriever->getImages(2), ['https://i.imgur.com/a', 'https://i.imgur.com/c']);
+        $this->assertEquals($imagesRetriever->getImages(2), ['https://i.imgur.com/a', 'b']);
         $this->assertEquals($imagesRetriever->getImages(1), ['https://i.imgur.com/a']);
     }
 

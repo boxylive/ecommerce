@@ -12,23 +12,26 @@ class ImagesRetriever
     public function getImages(int $number = 20): array
     {
         try {
-            $response = $this->client
+            $products = $this->client
                 ->request('GET', 'https://api.escuelajs.co/api/v1/products')
                 ->toArray();
         } catch (\Exception $e) {
             return [];
         }
 
-        $products = array_slice($response, 0, $number);
         $images = [];
 
         foreach ($products as $product) {
             $images = array_merge($images, $product['images']);
         }
 
-        $images = array_values(array_filter($images, function ($result) {
-            return (new UnicodeString($result))->startsWith('https://i.imgur.com');
-        }));
+        $images = array_values(array_map(function ($result) {
+            return (new UnicodeString($result))
+                ->replace('[', '')
+                ->replace(']', '')
+                ->replace('"', '')
+                ->toString();
+        }, array_slice($images, 0, $number)));
 
         return empty($images) ? [] : $images;
     }
