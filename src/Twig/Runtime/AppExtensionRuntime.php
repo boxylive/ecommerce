@@ -18,6 +18,6 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
      */
     public function price(int $value, int $rate = 0): float
     {
-        return $value * (1 + $rate / 100) / 100;
+        return round($value / 100 * (1 + $rate / 100), 2);
     }
 }
