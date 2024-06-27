@@ -15,11 +15,12 @@ Vous devez lancer les containers Docker :
 docker compose up -d
 ```
 
-Vous devez lancer les migrations :
+Vous devez lancer les migrations (On assume de ne pas faire de migrations pour le moment) :
 
 ```bash
-symfony console d:m:m
-symfony console d:f:l
+symfony console d:s:u --force
+# symfony console d:m:m
+# symfony console d:f:l
 ```
 
 ## Frontend
