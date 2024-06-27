@@ -9,6 +9,9 @@
                 {{ product.description | u.truncate(50, '...', false) }}
             </div>
             <p class="font-medium text-gray-900">{{ product.price | price(20) | format_currency('EUR') }} TTC</p>
+            <twig:Button data-action="live#action:prevent" data-live-action-param="add">
+                Ajouter au panier
+            </twig:Button>
         </div>
     </a>
 </div>
