@@ -22,5 +22,8 @@ final class ProductCard
     public function add(CartManager $cartManager)
     {
         $cartManager->add($this->product, 1);
+
+        // @todo How to test that ?
+        $this->emit('refreshCart');
     }
 }
