@@ -3,17 +3,17 @@
 namespace App\Tests;
 
 use App\CartManager;
-use App\Twig\Components\CartTotal;
+use App\Twig\Components\CartHeader;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\UX\LiveComponent\Test\InteractsWithLiveComponents;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
-class CartTotalTest extends WebTestCase
+class CartHeaderTest extends WebTestCase
 {
     use Factories, InteractsWithLiveComponents, ResetDatabase;
 
-    public function testCanShowCartTotal(): void
+    public function testCanShowCartHeader(): void
     {
         // Arrange
         $client = static::createClient();
@@ -22,13 +22,13 @@ class CartTotalTest extends WebTestCase
         static::getContainer()->set(CartManager::class, $cartManager);
 
         // Act
-        $cartTotalComponent = $this->createLiveComponent(CartTotal::class, [], $client);
-        $this->assertStringContainsString('Panier (0)', $cartTotalComponent->render());
+        $component = $this->createLiveComponent(CartHeader::class, [], $client);
+        $this->assertStringContainsString('Panier (0)', $component->render());
 
         $cartManager->method('total')->willReturn(19);
-        $cartTotalComponent->emit('refreshCart');
+        $component->emit('refreshCart');
 
         // Assert
-        $this->assertStringContainsString('Panier (19)', $cartTotalComponent->render());
+        $this->assertStringContainsString('Panier (19)', $component->render());
     }
 }

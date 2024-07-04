@@ -7,7 +7,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
 #[AsLiveComponent]
-final class CartTotal
+final class CartHeader
 {
     use DefaultActionTrait;
 

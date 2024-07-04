@@ -25,10 +25,10 @@ class ProductCardTest extends WebTestCase
         static::ensureKernelShutdown();
         $client = static::createClient(); // We need to create a client to share sessions in test
 
-        $productCardComponent = $this->createLiveComponent(ProductCard::class, [
+        $component = $this->createLiveComponent(ProductCard::class, [
             'product' => $product->_real(),
         ], $client);
-        $productCardComponent->call('add')->call('add');
+        $component->call('add')->call('add');
 
         // Assert
         $cart = static::getContainer()->get(CartRepository::class)->find(1);

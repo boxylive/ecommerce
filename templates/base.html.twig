@@ -13,7 +13,7 @@
         {% endblock %}
     </head>
     <body>
-        <header class="bg-white border-b shadow fixed w-full" x-data="{ open: false }">
+        <header class="bg-white border-b shadow fixed z-10 w-full" x-data="{ open: false }">
             <nav class="mx-auto flex max-w-screen-xl items-center justify-between px-6 py-4 lg:px-8">
                 <div class="flex flex-1">
                     <div class="hidden lg:flex lg:gap-x-12">
@@ -31,7 +31,7 @@
                 <div class="flex flex-1 justify-end gap-4">
                     <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Connexion</a>
                     <a href="#" class="text-sm font-semibold leading-6 text-gray-900">
-                        <twig:CartTotal />
+                        <twig:CartHeader />
                     </a>
                 </div>
             </nav>
@@ -58,7 +58,7 @@
                         <div class="flex flex-1 justify-end gap-4">
                             <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Connexion</a>
                             <a href="#" class="text-sm font-semibold leading-6 text-gray-900">
-                                <twig:CartTotal />
+                                <twig:CartHeader />
                             </a>
                         </div>
                     </div>
