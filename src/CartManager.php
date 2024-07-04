@@ -32,6 +32,16 @@ class CartManager
     }
 
     /**
+     * Find an item in cart.
+     */
+    public function findItem($product): ?CartItem
+    {
+        return $this->current()->getCartItems()->findFirst(function (int $key, CartItem $cartItem) use ($product): bool {
+            return $cartItem->getProduct()->getId() === $product->getId();
+        });
+    }
+
+    /**
      * Return current cart for user.
      */
     public function current(): Cart
@@ -58,18 +68,13 @@ class CartManager
     {
         $cart = $this->current();
 
-        /** @var CartItem */
-        $cartItem = $cart->getCartItems()->findFirst(function (int $key, CartItem $cartItem) use ($product): bool {
-            return $cartItem->getProduct()->getId() === $product->getId();
-        });
-
-        if (! $cartItem) {
+        if ($cartItem = $this->findItem($product)) {
+            $cartItem->setQuantity($cartItem->getQuantity() + 1);
+        } else {
             $cartItem = new CartItem();
             $cartItem->setQuantity($quantity);
             $cart->addCartItem($cartItem);
             $cartItem->setProduct($product);
-        } else {
-            $cartItem->setQuantity($cartItem->getQuantity() + 1);
         }
 
         $this->entityManager->persist($cart);
