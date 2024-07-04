@@ -25,7 +25,7 @@ class CartHeaderTest extends WebTestCase
         $component = $this->createLiveComponent(CartHeader::class, [], $client);
         $this->assertStringContainsString('Panier (0)', $component->render());
 
-        $cartManager->method('total')->willReturn(19);
+        $cartManager->method('quantity')->willReturn(19);
         $component->emit('refreshCart');
 
         // Assert

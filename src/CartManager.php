@@ -18,7 +18,7 @@ class CartManager
     /**
      * Return total quantity in cart.
      */
-    public function total(): int
+    public function quantity(): int
     {
         $session = $this->requestStack->getSession();
 

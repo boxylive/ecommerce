@@ -40,7 +40,7 @@ class ProductCardTest extends WebTestCase
 
         $requestStack = static::getContainer()->get(RequestStack::class);
         $requestStack->push($client->getRequest());
-        $this->assertEquals(2, static::getContainer()->get(CartManager::class)->total());
+        $this->assertEquals(2, static::getContainer()->get(CartManager::class)->quantity());
         $this->assertEquals($cart->getId(), $requestStack->getSession()->get('cart'));
     }
 }
