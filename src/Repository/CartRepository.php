@@ -16,6 +16,14 @@ class CartRepository extends ServiceEntityRepository
         parent::__construct($registry, Cart::class);
     }
 
+    public function findWithItems(int $id): ?Cart
+    {
+        return $this->createQueryBuilder('c')->addSelect('ci', 'p')
+            ->join('c.cartItems', 'ci')->join('ci.product', 'p')
+            ->where('c.id = :id')->setParameter('id', $id)
+            ->getQuery()->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Cart[] Returns an array of Cart objects
     //     */

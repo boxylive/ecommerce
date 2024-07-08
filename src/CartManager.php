@@ -10,6 +10,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartManager
 {
+    /**
+     * @todo check why Doctrine don't use unitOfWork in Repository
+     */
+    private $cart;
+
     public function __construct(
         private RequestStack $requestStack,
         private EntityManagerInterface $entityManager
@@ -49,11 +54,11 @@ class CartManager
         $session = $this->requestStack->getSession();
 
         if ($session->has('cart')) {
-            $cart = $this->entityManager->getRepository(Cart::class)
-                ->find($session->get('cart'));
+            $this->cart = $this->cart ?: $this->entityManager->getRepository(Cart::class)
+                ->findWithItems($session->get('cart'));
 
-            if ($cart) {
-                return $cart;
+            if ($this->cart) {
+                return $this->cart;
             }
         }
 
