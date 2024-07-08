@@ -1,4 +1,7 @@
-<div{{ attributes.defaults({ class: 'rounded-lg border border-gray-200' }) }}>
+<div
+    {{ attributes.defaults({ class: 'rounded-lg border border-gray-200' }) }}
+    {% if added %} data-poll="delay(3000)|reset" {% endif %}
+>
     <a href="{{ path('product_show', { slug: product.slug }) }}" class="flex flex-col">
         <div>
             <img class="rounded-t-lg mb-2" src="{{ product.image }}" alt="{{ product.name }}">
@@ -9,9 +12,13 @@
                 {{ product.description | u.truncate(50, '...', false) }}
             </div>
             <p class="font-medium text-gray-900">{{ product.price | price(20) | format_currency('EUR') }} TTC</p>
-            <twig:Button data-action="live#action:prevent" data-live-action-param="add">
-                Ajouter au panier
-            </twig:Button>
+            {% if added %}
+                <p class="text-center text-xs text-green-700 py-3">Le produit a bien été ajouté</p>
+            {% else %}
+                <twig:Button data-action="live#action:prevent" data-live-action-param="debounce(300)|add">
+                    Ajouter au panier
+                </twig:Button>
+            {% endif %}
         </div>
     </a>
 </div>

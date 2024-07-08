@@ -18,13 +18,23 @@ final class ProductCard
     #[LiveProp]
     public Product $product;
 
+    public bool $added = false;
+
     #[LiveAction]
     public function add(CartManager $cartManager)
     {
         $cartManager->add($this->product, 1);
 
+        $this->added = true;
+
         $this->emit('refreshCart', [
             'quantity' => $cartManager->quantity(),
         ]);
+    }
+
+    #[LiveAction]
+    public function reset()
+    {
+        $this->added = false;
     }
 }

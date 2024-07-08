@@ -47,5 +47,7 @@ class ProductCardTest extends WebTestCase
 
         $this->assertEquals('refreshCart', $eventsToEmit[0]['event']);
         $this->assertEquals(['quantity' => 2], $eventsToEmit[0]['data']);
+
+        $this->assertStringContainsString('Le produit a bien été ajouté', $component->render());
     }
 }
