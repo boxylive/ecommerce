@@ -23,6 +23,8 @@ final class ProductCard
     {
         $cartManager->add($this->product, 1);
 
-        $this->emit('refreshCart');
+        $this->emit('refreshCart', [
+            'quantity' => $cartManager->quantity(),
+        ]);
     }
 }

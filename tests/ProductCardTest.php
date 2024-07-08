@@ -46,5 +46,6 @@ class ProductCardTest extends WebTestCase
         $eventsToEmit = json_decode($client->getCrawler()->filter('[data-live-events-to-emit-value]')->attr('data-live-events-to-emit-value'), true);
 
         $this->assertEquals('refreshCart', $eventsToEmit[0]['event']);
+        $this->assertEquals(['quantity' => 2], $eventsToEmit[0]['data']);
     }
 }
