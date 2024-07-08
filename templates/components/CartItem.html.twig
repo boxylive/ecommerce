@@ -1,0 +1,29 @@
+<div{{ attributes.defaults({ class: 'flex py-6' }) }}>
+    <img class="rounded-lg w-48 h-64 object-cover" src="{{ cartItem.product.image }}" alt="{{ cartItem.product.name }}">
+    <div class="pr-9 ml-4 lg:flex flex-grow justify-between relative">
+        <div>
+            <h2 class="text-sm font-medium text-gray-900 mb-4">{{ cartItem.product.name }}</h2>
+            <p class="font-medium text-gray-900">{{ cartItem.product.price | price(20) | format_currency('EUR') }} TTC</p>
+            <p class="font-medium text-gray-900">{{ (cartItem.product.price * cartItem.quantity) | price(20) | format_currency('EUR') }} TTC</p>
+        </div>
+
+        <div>
+            <twig:Select
+                data-action="live#action"
+                data-live-action-param="update"
+                data-model="quantity"
+            >
+                {% for i in 1..100 %}
+                    <option value="{{ i }}" {{ i == cartItem.quantity ? 'selected' }}>{{ i }}</option>
+                {% endfor %}
+            </twig:Select>
+
+            <button class="absolute top-0 right-0 text-gray-400"
+                data-action="live#action"
+                data-live-action-param="remove"
+            >
+                <twig:ux:icon name="material-symbols:close" class="h-4 w-4" />
+            </button>
+        </div>
+    </div>
+</div>

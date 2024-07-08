@@ -30,7 +30,7 @@
                 </a>
                 <div class="flex flex-1 justify-end gap-4">
                     <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Connexion</a>
-                    <a href="#" class="text-sm font-semibold leading-6 text-gray-900">
+                    <a href="{{ path('cart') }}" class="text-sm font-semibold leading-6 text-gray-900">
                         <twig:CartHeader :quantity="cart.quantity" />
                     </a>
                 </div>
@@ -57,7 +57,7 @@
                         </a>
                         <div class="flex flex-1 justify-end gap-4">
                             <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Connexion</a>
-                            <a href="#" class="text-sm font-semibold leading-6 text-gray-900">
+                            <a href="{{ path('cart') }}" class="text-sm font-semibold leading-6 text-gray-900">
                                 <twig:CartHeader :quantity="cart.quantity" />
                             </a>
                         </div>

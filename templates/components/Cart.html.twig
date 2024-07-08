@@ -1,0 +1,32 @@
+<div{{ attributes.defaults({ class: 'lg:grid grid-cols-5 gap-8' }) }}>
+    <div class="col-span-3 divide-y">
+        {% if cart.empty %}
+            <h2 class="text-lg font-medium text-gray-900">Votre panier est vide</h2>
+        {% endif %}
+
+        {% for key, item in cart.current.cartItems %}
+            <twig:CartItem :cartItem="item" :quantity="item.quantity" :key="item.id" />
+        {% endfor %}
+    </div>
+
+    <div class="col-span-2">
+        <div class="bg-gray-50 p-8 rounded-lg">
+            <h2 class="text-lg font-medium text-gray-900">Total commande</h2>
+
+            <dl class="mt-6 space-y-4">
+                <div class="flex items-center justify-between">
+                    <dt class="text-sm text-gray-600">Sous total HT</dt>
+                    <dd class="text-sm font-medium text-gray-900">{{ cart.total | price | format_currency('EUR') }}</dd>
+                </div>
+                <div class="flex items-center justify-between border-t border-gray-200 pt-4">
+                    <dt class="flex text-sm text-gray-600">TVA</dt>
+                    <dd class="text-sm font-medium text-gray-900">{{ (cart.total | price(20) - cart.total | price) | format_currency('EUR') }}</dd>
+                </div>
+                <div class="flex items-center justify-between border-t border-gray-200 pt-4">
+                    <dt class="text-base font-medium text-gray-900">Total TTC</dt>
+                    <dd class="text-base font-medium text-gray-900">{{ cart.total | price(20) | format_currency('EUR') }}</dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+</div>

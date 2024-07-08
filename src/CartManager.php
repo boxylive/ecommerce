@@ -21,6 +21,14 @@ class CartManager
     ) {}
 
     /**
+     * Determine if cart is empty.
+     */
+    public function empty(): bool
+    {
+        return $this->quantity() === 0;
+    }
+
+    /**
      * Return total quantity in cart.
      */
     public function quantity(): int
@@ -33,6 +41,22 @@ class CartManager
 
         return $this->current()->getCartItems()->reduce(function (int $accumulator, CartItem $cartItem): int {
             return $accumulator + $cartItem->getQuantity();
+        }, 0);
+    }
+
+    /**
+     * Return total price in cart
+     */
+    public function total(): int
+    {
+        $session = $this->requestStack->getSession();
+
+        if (! $session->has('cart')) {
+            return 0;
+        }
+
+        return $this->current()->getCartItems()->reduce(function (int $accumulator, CartItem $cartItem): int {
+            return $accumulator + $cartItem->getProduct()->getPrice() * $cartItem->getQuantity();
         }, 0);
     }
 
@@ -88,5 +112,34 @@ class CartManager
 
         $session = $this->requestStack->getSession();
         $session->set('cart', $cart->getId());
+    }
+
+    /**
+     * Update an item in cart.
+     */
+    public function update(int $id, int $quantity): void
+    {
+        $cart = $this->current();
+
+        /** @var CartItem */
+        $cartItem = $cart->getCartItems()->findFirst(function (int $key, CartItem $cartItem) use ($id): bool {
+            return $cartItem->getId() === $id;
+        });
+
+        if ($cartItem) {
+            $cartItem->setQuantity($quantity);
+
+            $this->entityManager->flush();
+        }
+    }
+
+    /**
+     * Remove an item from cart.
+     */
+    public function remove(int $id): void
+    {
+        $cartItem = $this->entityManager->getReference(CartItem::class, $id);
+        $this->entityManager->remove($cartItem);
+        $this->entityManager->flush();
     }
 }
