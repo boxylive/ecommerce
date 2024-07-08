@@ -13,7 +13,8 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 #[AsLiveComponent]
 final class ProductCard
 {
-    use ComponentToolsTrait, DefaultActionTrait;
+    use ComponentToolsTrait;
+    use DefaultActionTrait;
 
     #[LiveProp]
     public Product $product;

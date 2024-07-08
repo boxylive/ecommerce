@@ -13,7 +13,8 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 #[AsLiveComponent]
 final class CartItem
 {
-    use ComponentToolsTrait, DefaultActionTrait;
+    use ComponentToolsTrait;
+    use DefaultActionTrait;
 
     #[LiveProp]
     public EntityCartItem $cartItem;

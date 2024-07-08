@@ -12,7 +12,7 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
     }
 
     /**
-     * Get a price from database (1999 cents)
+     * Get a price from database (1999 cents).
      *
      * Return value (with ou without taxes) in real unit => 19.99
      */

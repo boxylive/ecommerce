@@ -7,7 +7,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ImagesRetriever
 {
-    public function __construct(private HttpClientInterface $client) {}
+    public function __construct(private HttpClientInterface $client)
+    {
+    }
 
     public function getImages(int $number = 20): array
     {
@@ -38,6 +40,6 @@ class ImagesRetriever
 
     public function random(array $images): mixed
     {
-        return ! empty($images) ? $images[array_rand($images)] : null;
+        return !empty($images) ? $images[array_rand($images)] : null;
     }
 }

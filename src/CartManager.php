@@ -18,14 +18,15 @@ class CartManager
     public function __construct(
         private RequestStack $requestStack,
         private EntityManagerInterface $entityManager
-    ) {}
+    ) {
+    }
 
     /**
      * Determine if cart is empty.
      */
     public function empty(): bool
     {
-        return $this->quantity() === 0;
+        return 0 === $this->quantity();
     }
 
     /**
@@ -35,7 +36,7 @@ class CartManager
     {
         $session = $this->requestStack->getSession();
 
-        if (! $session->has('cart')) {
+        if (!$session->has('cart')) {
             return 0;
         }
 
@@ -45,13 +46,13 @@ class CartManager
     }
 
     /**
-     * Return total price in cart
+     * Return total price in cart.
      */
     public function total(): int
     {
         $session = $this->requestStack->getSession();
 
-        if (! $session->has('cart')) {
+        if (!$session->has('cart')) {
             return 0;
         }
 

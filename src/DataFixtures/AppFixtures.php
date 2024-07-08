@@ -9,7 +9,9 @@ use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
-    public function __construct(private ImagesRetriever $retriever) {}
+    public function __construct(private ImagesRetriever $retriever)
+    {
+    }
 
     public function load(ObjectManager $manager): void
     {

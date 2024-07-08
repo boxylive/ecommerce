@@ -10,7 +10,8 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 #[AsLiveComponent]
 final class Cart
 {
-    use ComponentToolsTrait, DefaultActionTrait;
+    use ComponentToolsTrait;
+    use DefaultActionTrait;
 
     #[LiveListener('refreshCart')]
     public function refreshCart()

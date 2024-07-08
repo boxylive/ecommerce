@@ -38,4 +38,6 @@ On utilise une base de données SQLite pour les tests.
 ```bash
 php bin/console --env=test d:d:c
 php bin/console --env=test d:s:c
+php bin/phpunit
+vendor/bin/php-cs-fixer fix src --dry-run --diff
 ```
