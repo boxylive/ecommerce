@@ -14,9 +14,7 @@ class ProductControllerTest extends WebTestCase
     public function testCanSeeAProduct(): void
     {
         // Arrange
-        ProductFactory::createSequence([
-            ['name' => 'Produit 1', 'slug' => 'produit-1', 'price' => 1899],
-        ]);
+        ProductFactory::createOne(['name' => 'Produit 1', 'slug' => 'produit-1', 'price' => 1899]);
 
         // Act
         static::ensureKernelShutdown();

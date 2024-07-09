@@ -1,0 +1,17 @@
+<div
+    {{ attributes }}
+    {% if added %} data-poll="delay(3000)|reset" {% endif %}
+>
+    <twig:Button
+        data-action="live#action:prevent"
+        data-live-action-param="debounce(300)|add"
+        :disabled="added"
+        class="{{ added ? 'bg-green-600 hover:bg-green-600' : '' }}"
+    >
+        {% if added %}
+            Le produit a bien été ajouté
+        {% else %}
+            Ajouter au panier
+        {% endif %}
+    </twig:Button>
+</div>

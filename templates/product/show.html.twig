@@ -15,6 +15,7 @@
             <p class="font-medium text-gray-900">
                 {{ product.price | price(20) | format_currency('EUR') }} TTC
             </p>
+            <twig:CartAdd :product="product" />
         </div>
     </div>
 {% endblock %}
