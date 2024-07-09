@@ -12,13 +12,18 @@
                 {{ product.description | u.truncate(50, '...', false) }}
             </div>
             <p class="font-medium text-gray-900">{{ product.price | price(20) | format_currency('EUR') }} TTC</p>
-            {% if added %}
-                <p class="text-center text-xs text-green-700 py-3">Le produit a bien été ajouté</p>
-            {% else %}
-                <twig:Button data-action="live#action:prevent" data-live-action-param="debounce(300)|add">
+            <twig:Button
+                data-action="live#action:prevent"
+                data-live-action-param="debounce(300)|add"
+                :disabled="added"
+                class="{{ added ? 'bg-green-600 hover:bg-green-600' : '' }}"
+            >
+                {% if added %}
+                    Le produit a bien été ajouté
+                {% else %}
                     Ajouter au panier
-                </twig:Button>
-            {% endif %}
+                {% endif %}
+            </twig:Button>
         </div>
     </a>
 </div>
