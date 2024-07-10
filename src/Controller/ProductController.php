@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ProductController extends AbstractController
 {
-    #[Route('/{slug}', name: 'product_show')]
+    #[Route('/{slug}', name: 'product_show', priority: -1)]
     public function show(
         #[MapEntity(mapping: ['slug' => 'slug'])]
         Product $product
