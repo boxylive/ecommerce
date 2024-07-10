@@ -10,7 +10,9 @@ use Zenstruck\Foundry\Test\ResetDatabase;
 
 class CartHeaderTest extends WebTestCase
 {
-    use Factories, InteractsWithLiveComponents, ResetDatabase;
+    use Factories;
+    use InteractsWithLiveComponents;
+    use ResetDatabase;
 
     public function testCanShowCartHeader(): void
     {

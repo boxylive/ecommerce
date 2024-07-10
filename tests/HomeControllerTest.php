@@ -9,7 +9,8 @@ use Zenstruck\Foundry\Test\ResetDatabase;
 
 class HomeControllerTest extends WebTestCase
 {
-    use Factories, ResetDatabase;
+    use Factories;
+    use ResetDatabase;
 
     public function testCanSeeHomepage(): void
     {

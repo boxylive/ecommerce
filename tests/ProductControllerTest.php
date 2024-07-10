@@ -9,7 +9,8 @@ use Zenstruck\Foundry\Test\ResetDatabase;
 
 class ProductControllerTest extends WebTestCase
 {
-    use Factories, ResetDatabase;
+    use Factories;
+    use ResetDatabase;
 
     public function testCanSeeAProduct(): void
     {

@@ -11,7 +11,8 @@ use Zenstruck\Foundry\Test\ResetDatabase;
 
 class CartControllerTest extends WebTestCase
 {
-    use Factories, ResetDatabase;
+    use Factories;
+    use ResetDatabase;
 
     public function testCanSeeEmptyCart(): void
     {

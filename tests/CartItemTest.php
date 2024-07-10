@@ -13,7 +13,9 @@ use Zenstruck\Foundry\Test\ResetDatabase;
 
 class CartItemTest extends WebTestCase
 {
-    use Factories, InteractsWithLiveComponents, ResetDatabase;
+    use Factories;
+    use InteractsWithLiveComponents;
+    use ResetDatabase;
 
     public function testCanUpdateProductInCart(): void
     {

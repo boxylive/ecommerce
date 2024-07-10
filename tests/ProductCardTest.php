@@ -11,7 +11,9 @@ use Zenstruck\Foundry\Test\ResetDatabase;
 
 class ProductCardTest extends WebTestCase
 {
-    use Factories, InteractsWithLiveComponents, ResetDatabase;
+    use Factories;
+    use InteractsWithLiveComponents;
+    use ResetDatabase;
 
     public function testCanSeeProduct(): void
     {
