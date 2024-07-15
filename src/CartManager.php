@@ -34,9 +34,7 @@ class CartManager
      */
     public function quantity(): int
     {
-        $session = $this->requestStack->getSession();
-
-        if (!$session->has('cart')) {
+        if (!$this->fromSession()) {
             return 0;
         }
 
@@ -50,9 +48,7 @@ class CartManager
      */
     public function total(): int
     {
-        $session = $this->requestStack->getSession();
-
-        if (!$session->has('cart')) {
+        if (!$this->fromSession()) {
             return 0;
         }
 
@@ -64,7 +60,7 @@ class CartManager
     /**
      * Find an item in cart.
      */
-    public function findItem($product): ?CartItem
+    protected function findItem($product): ?CartItem
     {
         return $this->current()->getCartItems()->findFirst(function (int $key, CartItem $cartItem) use ($product): bool {
             return $cartItem->getProduct()->getId() === $product->getId();
@@ -72,15 +68,23 @@ class CartManager
     }
 
     /**
+     * Return cart id from session.
+     */
+    public function fromSession(): ?int
+    {
+        $session = $this->requestStack->getSession();
+
+        return $session->get('cart');
+    }
+
+    /**
      * Return current cart for user.
      */
     public function current(): Cart
     {
-        $session = $this->requestStack->getSession();
-
-        if ($session->has('cart')) {
+        if ($id = $this->fromSession()) {
             $this->cart = $this->cart ?: $this->entityManager->getRepository(Cart::class)
-                ->findWithItems($session->get('cart'));
+                ->findWithItems($id);
 
             if ($this->cart) {
                 return $this->cart;
