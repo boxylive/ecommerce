@@ -60,7 +60,7 @@ class LoginControllerTest extends WebTestCase
 
         // Assert
         // @todo why flush ?
-        $this->assertCount(1, $user->getCarts());
+        $this->assertEquals($user->getId(), $cart->getUser()->getId());
     }
 
     public function testUserCannotLoginWithErrors(): void

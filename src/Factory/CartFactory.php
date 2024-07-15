@@ -33,6 +33,7 @@ final class CartFactory extends PersistentProxyObjectFactory
     {
         return [
             'created_at' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
+            'user' => UserFactory::new(),
         ];
     }
 

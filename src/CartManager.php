@@ -6,6 +6,7 @@ use App\Entity\Cart;
 use App\Entity\CartItem;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartManager
@@ -17,7 +18,8 @@ class CartManager
 
     public function __construct(
         private RequestStack $requestStack,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private Security $security
     ) {
     }
 
@@ -34,7 +36,7 @@ class CartManager
      */
     public function quantity(): int
     {
-        if (!$this->fromSession()) {
+        if (!$this->fromSession() && !$this->fromUser()) {
             return 0;
         }
 
@@ -48,7 +50,7 @@ class CartManager
      */
     public function total(): int
     {
-        if (!$this->fromSession()) {
+        if (!$this->fromSession() && !$this->fromUser()) {
             return 0;
         }
 
@@ -78,10 +80,29 @@ class CartManager
     }
 
     /**
+     * Return cart id from user.
+     */
+    public function fromUser(): ?Cart
+    {
+        $user = $this->security->getUser();
+
+        if ($user) {
+            $this->cart = $this->cart ?: $this->entityManager->getRepository(Cart::class)
+                ->findFromUser($user->getId());
+        }
+
+        return $this->cart;
+    }
+
+    /**
      * Return current cart for user.
      */
     public function current(): Cart
     {
+        if ($cart = $this->fromUser()) {
+            return $cart;
+        }
+
         if ($id = $this->fromSession()) {
             $this->cart = $this->cart ?: $this->entityManager->getRepository(Cart::class)
                 ->findWithItems($id);
