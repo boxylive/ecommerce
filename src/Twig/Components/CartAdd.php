@@ -19,6 +19,7 @@ final class CartAdd
     #[LiveProp]
     public Product $product;
 
+    #[LiveProp(writable: true)]
     public bool $added = false;
 
     #[LiveAction]

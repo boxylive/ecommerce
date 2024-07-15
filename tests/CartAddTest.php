@@ -51,5 +51,9 @@ class CartAddTest extends WebTestCase
         $this->assertEquals(['quantity' => 2], $eventsToEmit[0]['data']);
 
         $this->assertStringContainsString('Le produit a bien été ajouté', $component->render());
+
+        $this->assertTrue($component->component()->added);
+        $component->call('reset');
+        $this->assertFalse($component->component()->added);
     }
 }
