@@ -14,8 +14,10 @@ class CartControllerTest extends WebTestCase
 
     public function testCanSeeEmptyCart(): void
     {
+        // Act
         $crawler = $this->client->request('GET', '/panier');
 
+        // Assert
         $this->assertResponseIsSuccessful();
         $this->assertStringContainsString('Votre panier est vide', $crawler->text());
         $this->assertStringContainsString('0,00 €', $crawler->text());

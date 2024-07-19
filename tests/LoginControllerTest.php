@@ -82,6 +82,7 @@ class LoginControllerTest extends WebTestCase
         $this->client->request('GET', '/logout');
         $crawler = $this->client->followRedirect();
 
+        // Assert
         $this->assertStringNotContainsString('fiorella@boxydev.com', $crawler->text());
     }
 }

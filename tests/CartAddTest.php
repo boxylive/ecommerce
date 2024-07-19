@@ -55,6 +55,7 @@ class CartAddTest extends WebTestCase
         ], $this->client);
         $component->call('add');
 
+        // Assert
         $eventsToEmit = json_decode($this->client->getCrawler()->filter('[data-live-events-to-emit-value]')->attr('data-live-events-to-emit-value'), true);
 
         $this->assertEquals('refreshCart', $eventsToEmit[0]['event']);
@@ -72,6 +73,7 @@ class CartAddTest extends WebTestCase
         ], $this->client);
         $component->call('add');
 
+        // Assert
         $this->assertTrue($component->component()->added);
         $component->call('reset');
         $this->assertFalse($component->component()->added);

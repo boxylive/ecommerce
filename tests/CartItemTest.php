@@ -31,6 +31,7 @@ class CartItemTest extends WebTestCase
         $component->set('quantity', 2);
         $component->call('update');
 
+        // Assert
         $this->assertEquals(2, $cartItem->_refresh()->getQuantity());
         $eventsToEmit = json_decode($this->client->getCrawler()->filter('[data-live-events-to-emit-value]')->attr('data-live-events-to-emit-value'), true);
 
@@ -53,6 +54,7 @@ class CartItemTest extends WebTestCase
         ], $this->client);
         $component->call('remove');
 
+        // Assert
         $this->assertNull(static::getContainer()->get(CartItemRepository::class)->find($cartItem->getId()));
         $eventsToEmit = json_decode($this->client->getCrawler()->filter('[data-live-events-to-emit-value]')->attr('data-live-events-to-emit-value'), true);
 
