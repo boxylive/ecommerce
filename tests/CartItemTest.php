@@ -5,7 +5,6 @@ namespace App\Tests;
 use App\Factory\CartItemFactory;
 use App\Repository\CartItemRepository;
 use App\Twig\Components\CartItem;
-use Symfony\Component\BrowserKit\Cookie;
 use Symfony\UX\LiveComponent\Test\InteractsWithLiveComponents;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
@@ -20,14 +19,11 @@ class CartItemTest extends WebTestCase
     {
         // Arrange
         $cartItem = CartItemFactory::createOne(['quantity' => 1]);
+        $this->mockSession(function ($session) use ($cartItem) {
+            $session->set('cart', $cartItem->getCart()->getId());
+        });
 
         // Act
-        // Put session before test request
-        $session = static::getContainer()->get('session.factory')->createSession();
-        $session->set('cart', $cartItem->getCart()->getId());
-        $session->save();
-        $this->client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
-
         $component = $this->createLiveComponent(CartItem::class, [
             'cartItem' => $cartItem->_real(),
             'quantity' => $cartItem->getQuantity(),
@@ -46,14 +42,11 @@ class CartItemTest extends WebTestCase
     {
         // Arrange
         $cartItem = CartItemFactory::createOne(['quantity' => 1]);
+        $this->mockSession(function ($session) use ($cartItem) {
+            $session->set('cart', $cartItem->getCart()->getId());
+        });
 
         // Act
-        // Put session before test request
-        $session = static::getContainer()->get('session.factory')->createSession();
-        $session->set('cart', $cartItem->getCart()->getId());
-        $session->save();
-        $this->client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
-
         $component = $this->createLiveComponent(CartItem::class, [
             'cartItem' => $cartItem->_real(),
             'quantity' => $cartItem->getQuantity(),

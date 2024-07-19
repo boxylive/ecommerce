@@ -11,10 +11,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartManager
 {
-    /**
-     * @todo check why Doctrine don't use unitOfWork in Repository
-     */
-    private $cart;
+    protected $cart;
 
     public function __construct(
         private RequestStack $requestStack,

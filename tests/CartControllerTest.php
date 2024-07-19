@@ -4,7 +4,6 @@ namespace App\Tests;
 
 use App\Factory\CartItemFactory;
 use App\Factory\ProductFactory;
-use Symfony\Component\BrowserKit\Cookie;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
@@ -31,14 +30,11 @@ class CartControllerTest extends WebTestCase
         $cartItem = CartItemFactory::createOne(['product' => $product1, 'quantity' => 1]);
         CartItemFactory::createOne(['product' => $product2, 'quantity' => 2, 'cart' => $cartItem->getCart()]);
 
-        // Put session before test request
-        $session = static::getContainer()->get('session.factory')->createSession();
-        $session->set('cart', $cartItem->getCart()->getId());
-        $session->save();
+        $this->mockSession(function ($session) use ($cartItem) {
+            $session->set('cart', $cartItem->getCart()->getId());
+        });
 
         // Act
-        $this->client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
-
         $crawler = $this->client->request('GET', '/panier');
 
         // Assert

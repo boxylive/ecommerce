@@ -4,7 +4,6 @@ namespace App\Tests;
 
 use App\Factory\CartFactory;
 use App\Factory\UserFactory;
-use Symfony\Component\BrowserKit\Cookie;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
@@ -40,11 +39,9 @@ class LoginControllerTest extends WebTestCase
         $cart = CartFactory::createOne();
 
         // Act
-        // Put session before test request
-        $session = static::getContainer()->get('session.factory')->createSession();
-        $session->set('cart', $cart->getId());
-        $session->save();
-        $this->client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
+        $this->mockSession(function ($session) use ($cart) {
+            $session->set('cart', $cart->getId());
+        });
 
         $this->client->request('GET', '/login');
         $this->client->submitForm('Connexion', [
