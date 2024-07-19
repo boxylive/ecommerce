@@ -3,7 +3,6 @@
 namespace App\Tests;
 
 use App\Factory\ProductFactory;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
@@ -21,9 +20,7 @@ class HomeControllerTest extends WebTestCase
         ]);
 
         // Act
-        static::ensureKernelShutdown();
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/');
+        $crawler = $this->client->request('GET', '/');
 
         // Assert
         $this->assertResponseIsSuccessful();

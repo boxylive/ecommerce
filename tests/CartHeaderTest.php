@@ -3,7 +3,6 @@
 namespace App\Tests;
 
 use App\Twig\Components\CartHeader;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\UX\LiveComponent\Test\InteractsWithLiveComponents;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;

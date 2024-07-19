@@ -4,7 +4,6 @@ namespace App\Tests;
 
 use App\Factory\CartItemFactory;
 use App\Factory\ProductFactory;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
@@ -16,8 +15,7 @@ class CartControllerTest extends WebTestCase
 
     public function testCanSeeEmptyCart(): void
     {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/panier');
+        $crawler = $this->client->request('GET', '/panier');
 
         $this->assertResponseIsSuccessful();
         $this->assertStringContainsString('Votre panier est vide', $crawler->text());
@@ -39,11 +37,9 @@ class CartControllerTest extends WebTestCase
         $session->save();
 
         // Act
-        static::ensureKernelShutdown();
-        $client = static::createClient();
-        $client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
+        $this->client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
 
-        $crawler = $client->request('GET', '/panier');
+        $crawler = $this->client->request('GET', '/panier');
 
         // Assert
         $this->assertResponseIsSuccessful();
@@ -65,9 +61,7 @@ class CartControllerTest extends WebTestCase
         CartItemFactory::createOne(['product' => $product2, 'quantity' => 2, 'cart' => $cart = $cartItem->getCart()]);
 
         // Act
-        static::ensureKernelShutdown();
-        $client = static::createClient();
-        $crawler = $client->loginUser($cart->getUser())->request('GET', '/panier');
+        $crawler = $this->client->loginUser($cart->getUser())->request('GET', '/panier');
 
         // Assert
         $this->assertResponseIsSuccessful();

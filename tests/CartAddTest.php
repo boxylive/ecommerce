@@ -6,7 +6,6 @@ use App\CartManager;
 use App\Factory\ProductFactory;
 use App\Repository\CartRepository;
 use App\Twig\Components\CartAdd;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\UX\LiveComponent\Test\InteractsWithLiveComponents;
 use Zenstruck\Foundry\Test\Factories;
@@ -24,12 +23,9 @@ class CartAddTest extends WebTestCase
         $product = ProductFactory::createOne(['name' => 'Produit 1', 'slug' => 'produit-1', 'price' => 1899]);
 
         // Act
-        static::ensureKernelShutdown();
-        $client = static::createClient(); // We need to create a client to share sessions in test
-
         $component = $this->createLiveComponent(CartAdd::class, [
             'product' => $product->_real(),
-        ], $client);
+        ], $this->client);
         $component->call('add')->call('add');
 
         // Assert
@@ -41,16 +37,40 @@ class CartAddTest extends WebTestCase
         $this->assertEquals($product->_real()->getId(), $item->getProduct()->getId());
 
         $requestStack = static::getContainer()->get(RequestStack::class);
-        $requestStack->push($client->getRequest());
+        $requestStack->push($this->client->getRequest());
         $this->assertEquals(2, static::getContainer()->get(CartManager::class)->quantity());
         $this->assertEquals($cart->getId(), $requestStack->getSession()->get('cart'));
 
-        $eventsToEmit = json_decode($client->getCrawler()->filter('[data-live-events-to-emit-value]')->attr('data-live-events-to-emit-value'), true);
+        $this->assertStringContainsString('Le produit a bien été ajouté', $component->render());
+    }
+
+    public function testAddAProductEmitEvent(): void
+    {
+        // Arrange
+        $product = ProductFactory::createOne(['name' => 'Produit 1', 'slug' => 'produit-1', 'price' => 1899]);
+
+        // Act
+        $component = $this->createLiveComponent(CartAdd::class, [
+            'product' => $product->_real(),
+        ], $this->client);
+        $component->call('add');
+
+        $eventsToEmit = json_decode($this->client->getCrawler()->filter('[data-live-events-to-emit-value]')->attr('data-live-events-to-emit-value'), true);
 
         $this->assertEquals('refreshCart', $eventsToEmit[0]['event']);
-        $this->assertEquals(['quantity' => 2], $eventsToEmit[0]['data']);
+        $this->assertEquals(['quantity' => 1], $eventsToEmit[0]['data']);
+    }
 
-        $this->assertStringContainsString('Le produit a bien été ajouté', $component->render());
+    public function testAddAProductManagedAdded(): void
+    {
+        // Arrange
+        $product = ProductFactory::createOne(['name' => 'Produit 1', 'slug' => 'produit-1', 'price' => 1899]);
+
+        // Act
+        $component = $this->createLiveComponent(CartAdd::class, [
+            'product' => $product->_real(),
+        ], $this->client);
+        $component->call('add');
 
         $this->assertTrue($component->component()->added);
         $component->call('reset');

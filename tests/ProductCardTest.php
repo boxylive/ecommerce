@@ -4,7 +4,6 @@ namespace App\Tests;
 
 use App\Factory\ProductFactory;
 use App\Twig\Components\ProductCard;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\UX\LiveComponent\Test\InteractsWithLiveComponents;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
@@ -21,12 +20,9 @@ class ProductCardTest extends WebTestCase
         $product = ProductFactory::createOne(['name' => 'Produit 1', 'slug' => 'produit-1', 'price' => 1899]);
 
         // Act
-        static::ensureKernelShutdown();
-        $client = static::createClient(); // We need to create a client to share sessions in test
-
         $component = $this->createLiveComponent(ProductCard::class, [
             'product' => $product->_real(),
-        ], $client);
+        ], $this->client);
 
         // Assert
         $this->assertStringContainsString('Produit 1', $render = $component->render());
