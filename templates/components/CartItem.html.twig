@@ -4,7 +4,7 @@
         <div>
             <h2 class="text-sm font-medium text-gray-900 mb-4">{{ cartItem.product.name }}</h2>
             <p class="font-medium text-gray-900">{{ cartItem.product.price | price(20) | format_currency('EUR') }} TTC</p>
-            <p class="font-medium text-gray-900">{{ (cartItem.product.price * cartItem.quantity) | price(20) | format_currency('EUR') }} TTC</p>
+            <p class="font-medium text-gray-900">{{ (cartItem.product.price | price(20) * cartItem.quantity) | format_currency('EUR') }} TTC</p>
         </div>
 
         <div>
