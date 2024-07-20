@@ -1,8 +1,12 @@
 <div{{ attributes.defaults({ class: 'flex py-6' }) }}>
-    <img class="rounded-lg w-48 h-64 object-cover" src="{{ cartItem.product.image }}" alt="{{ cartItem.product.name }}">
+    <a href="{{ path('product_show', { slug: cartItem.product.slug }) }}">
+        <img class="rounded-lg w-48 h-64 object-cover" src="{{ cartItem.product.image }}" alt="{{ cartItem.product.name }}">
+    </a>
     <div class="pr-9 ml-4 lg:flex flex-grow justify-between relative">
         <div>
-            <h2 class="text-sm font-medium text-gray-900 mb-4">{{ cartItem.product.name }}</h2>
+            <h2 class="text-sm font-medium text-gray-900 mb-4">
+                <a href="{{ path('product_show', { slug: cartItem.product.slug }) }}">{{ cartItem.product.name }}</a>
+            </h2>
             <p class="font-medium text-gray-900">{{ cartItem.product.price | price(20) | format_currency('EUR') }} TTC</p>
             <p class="font-medium text-gray-900">{{ (cartItem.product.price | price(20) * cartItem.quantity) | format_currency('EUR') }} TTC</p>
         </div>
@@ -18,7 +22,7 @@
                 {% endfor %}
             </twig:Select>
 
-            <button class="absolute top-0 right-0 text-gray-400"
+            <button class="absolute top-2 right-0 text-gray-400"
                 data-action="live#action"
                 data-live-action-param="remove"
             >

@@ -3,12 +3,17 @@
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block body %}
-    <div class="md:grid grid-cols-3 gap-16">
-        <div class="col-span-1">
+    <div class="md:grid grid-cols-4 gap-16">
+        <div class="col-span-2">
             <img class="mx-auto rounded-lg mb-2" src="{{ product.image }}" alt="{{ product.name }}">
         </div>
         <div class="col-span-2">
-            <h1 class="text-2xl font-medium text-gray-900 mb-10">{{ product.name }}</h1>
+            <div class="flex items-center justify-between mb-10">
+                <h1 class="text-2xl font-medium text-gray-900">{{ product.name }}</h1>
+                <p class="text-xl font-medium text-gray-900">
+                    {{ product.price | price(20) | format_currency('EUR') }}
+                </p>
+            </div>
             <div class="desc text-sm text-gray-500 mb-10">
                 {{ product.description }}
             </div>
