@@ -16,23 +16,27 @@ class CartRepository extends ServiceEntityRepository
         parent::__construct($registry, Cart::class);
     }
 
+    protected function baseQueryBuilder()
+    {
+        return $this->createQueryBuilder('c')
+            ->addSelect('ci', 'p')
+            ->join('c.cartItems', 'ci')
+            ->join('ci.product', 'p');
+    }
+
     public function findWithItems(int $id): ?Cart
     {
-        return $this->createQueryBuilder('c')->addSelect('ci', 'p')
-            ->join('c.cartItems', 'ci')->join('ci.product', 'p')
+        return $this->baseQueryBuilder()
             ->where('c.id = :id')->setParameter('id', $id)
             ->getQuery()->getOneOrNullResult();
     }
 
-    /**
-     * @todo Refacto
-     */
-    public function findFromUser(int $id): ?Cart
+    public function findAllByUserWithItems(int $id): array
     {
-        return $this->createQueryBuilder('c')->addSelect('ci', 'p')
-            ->join('c.cartItems', 'ci')->join('ci.product', 'p')
+        return $this->baseQueryBuilder()
             ->where('c.user = :id')->setParameter('id', $id)
-            ->getQuery()->getOneOrNullResult();
+            ->orderBy('c.created_at', 'DESC')
+            ->getQuery()->getResult();
     }
 
     //    /**

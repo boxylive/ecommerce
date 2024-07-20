@@ -50,7 +50,6 @@ class LoginControllerTest extends WebTestCase
         ]);
 
         // Assert
-        // @todo why flush ?
         $this->assertEquals($user->getId(), $cart->getUser()->getId());
     }
 

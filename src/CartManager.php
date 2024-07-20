@@ -85,7 +85,7 @@ class CartManager
 
         if ($user) {
             $this->cart = $this->cart ?: $this->entityManager->getRepository(Cart::class)
-                ->findFromUser($user->getId());
+                ->findAllByUserWithItems($user->getId())[0] ?? null;
         }
 
         return $this->cart;
