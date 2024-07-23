@@ -9,6 +9,12 @@
             </h2>
             <p class="font-medium text-gray-900">{{ cartItem.product.price | price(20) | format_currency('EUR') }} TTC</p>
             <p class="font-medium text-gray-900">{{ (cartItem.product.price | price(20) * cartItem.quantity) | format_currency('EUR') }} TTC</p>
+
+            {% if _errors.has('quantity') %}
+                <twig:Errors :errors="{
+                    quantity: _errors.get('quantity')
+                }" />
+            {% endif %}
         </div>
 
         <div>
@@ -17,7 +23,7 @@
                 data-live-action-param="update"
                 data-model="quantity"
             >
-                {% for i in 1..100 %}
+                {% for i in 0..100 %}
                     <option value="{{ i }}" {{ i == cartItem.quantity ? 'selected' }}>{{ i }}</option>
                 {% endfor %}
             </twig:Select>

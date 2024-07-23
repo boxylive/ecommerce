@@ -5,6 +5,7 @@ namespace App\Tests;
 use App\Factory\CartItemFactory;
 use App\Repository\CartItemRepository;
 use App\Twig\Components\CartItem;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\UX\LiveComponent\Test\InteractsWithLiveComponents;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
@@ -37,6 +38,24 @@ class CartItemTest extends WebTestCase
 
         $this->assertEquals('refreshCart', $eventsToEmit[0]['event']);
         $this->assertEquals(['quantity' => 2], $eventsToEmit[0]['data']);
+    }
+
+    public function testCannotUpdateProductInCart(): void
+    {
+        // Arrange
+        $cartItem = CartItemFactory::createOne(['quantity' => 1]);
+        $this->mockSession(function ($session) use ($cartItem) {
+            $session->set('cart', $cartItem->getCart()->getId());
+        });
+
+        // Act
+        $component = $this->createLiveComponent(CartItem::class, [
+            'cartItem' => $cartItem->_real(),
+            'quantity' => $cartItem->getQuantity(),
+        ], $this->client);
+        $component->set('quantity', -1);
+        $this->expectException(UnprocessableEntityHttpException::class);
+        $component->call('update');
     }
 
     public function testCanRemoveProductFromCart(): void

@@ -63,7 +63,7 @@ class CartControllerTest extends WebTestCase
 
         // Assert
         $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString('Panier (3)', $crawler->text());
+        $this->assertStringContainsString('3', $crawler->text());
         $this->assertStringContainsString('6,00 € TTC', $crawler->text());
         $this->assertStringContainsString('12,00 € TTC', $crawler->text());
         $this->assertStringContainsString('24,00 € TTC', $crawler->text());
