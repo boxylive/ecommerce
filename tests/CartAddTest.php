@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\CartManager;
 use App\Factory\ProductFactory;
+use App\Factory\UserFactory;
 use App\Repository\CartRepository;
 use App\Twig\Components\CartAdd;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -43,6 +44,28 @@ class CartAddTest extends WebTestCase
         $this->assertEquals($cart->getId(), $requestStack->getSession()->get('cart'));
 
         $this->assertStringContainsString('Le produit a bien été ajouté', $component->render());
+    }
+
+    public function testCanAddProductToCartWithUser(): void
+    {
+        // Arrange
+        $product = ProductFactory::createOne(['name' => 'Produit 1', 'slug' => 'produit-1', 'price' => 1899]);
+        $user = UserFactory::createOne(['email' => 'fiorella@boxydev.com']);
+
+        // Act
+        $component = $this->createLiveComponent(CartAdd::class, [
+            'product' => $product->_real(),
+        ], $this->client->loginUser($user->_real()));
+        $component->call('add');
+
+        // Assert
+        $cart = static::getContainer()->get(CartRepository::class)->find(1);
+        $this->assertEquals($user->_real()->getId(), $cart->getUser()->getId());
+
+        $requestStack = static::getContainer()->get(RequestStack::class);
+        $requestStack->push($this->client->getRequest());
+        $this->assertEquals(1, static::getContainer()->get(CartManager::class)->quantity());
+        $this->assertNull($requestStack->getSession()->get('cart'));
     }
 
     public function testAddAProductEmitEvent(): void

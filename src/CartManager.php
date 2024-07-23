@@ -5,6 +5,7 @@ namespace App;
 use App\Entity\Cart;
 use App\Entity\CartItem;
 use App\Entity\Product;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -67,6 +68,14 @@ class CartManager
     }
 
     /**
+     * Return user if logged.
+     */
+    protected function user(): ?User
+    {
+        return $this->security->getUser();
+    }
+
+    /**
      * Return cart id from session.
      */
     public function fromSession(): ?int
@@ -81,7 +90,7 @@ class CartManager
      */
     public function fromUser(): ?Cart
     {
-        $user = $this->security->getUser();
+        $user = $this->user();
 
         if ($user) {
             $this->cart = $this->cart ?: $this->entityManager->getRepository(Cart::class)
@@ -129,12 +138,16 @@ class CartManager
             $cartItem->setProduct($product);
         }
 
+        $cart->setUser(!$cart->getUser() ? $this->user() : null);
+
         $this->entityManager->persist($cart);
         $this->entityManager->persist($cartItem);
         $this->entityManager->flush();
 
-        $session = $this->requestStack->getSession();
-        $session->set('cart', $cart->getId());
+        if (!$cart->getUser()) {
+            $session = $this->requestStack->getSession();
+            $session->set('cart', $cart->getId());
+        }
     }
 
     /**
