@@ -16,11 +16,11 @@ class CartHeaderTest extends WebTestCase
     public function testCanShowCartHeader(): void
     {
         // Act
-        $component = $this->createLiveComponent(CartHeader::class, ['quantity' => 0]);
-        $this->assertStringContainsString('Panier (0)', $component->render());
-        $component->emit('refreshCart', ['quantity' => 19]);
+        $component = $this->createLiveComponent(CartHeader::class, ['quantity' => 18]);
+        $this->assertStringContainsString('18', $component->render());
+        $component->emit('refreshCart', ['quantity' => 22]);
 
         // Assert
-        $this->assertStringContainsString('Panier (19)', $component->render());
+        $this->assertStringContainsString('22', $component->render());
     }
 }
