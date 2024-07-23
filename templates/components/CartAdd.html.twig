@@ -2,16 +2,33 @@
     {{ attributes }}
     {% if added %} data-poll="delay(1000)|reset" {% endif %}
 >
+    {% if quantity is not same as null %}
+        {% if _errors.has('quantity') %}
+            <twig:Errors :errors="{
+                quantity: _errors.get('quantity')
+            }" />
+        {% endif %}
+
+        <twig:Select data-model="quantity" data-action="click->live#action:prevent" class="mb-8">
+            {% for i in 0..100 %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </twig:Select>
+    {% endif %}
+
     <twig:Button
         data-action="live#action:prevent"
         data-live-action-param="debounce(300)|add"
-        :disabled="added"
+        :disabled="added or _errors.has('quantity')"
         class="{{ added ? 'bg-green-600 hover:bg-green-600' }}"
     >
         {% if added %}
             Le produit a bien été ajouté
         {% else %}
             Ajouter au panier
+            {% if quantity is not same as null %}
+                - {{ (product.price | price(20) * quantity) | format_currency('EUR') }}
+            {% endif %}
         {% endif %}
     </twig:Button>
 </div>

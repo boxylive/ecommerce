@@ -7,6 +7,7 @@ use App\Factory\ProductFactory;
 use App\Repository\CartRepository;
 use App\Twig\Components\CartAdd;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\UX\LiveComponent\Test\InteractsWithLiveComponents;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
@@ -77,5 +78,41 @@ class CartAddTest extends WebTestCase
         $this->assertTrue($component->component()->added);
         $component->call('reset');
         $this->assertFalse($component->component()->added);
+    }
+
+    public function testCanAddProductToCartWithQuantity(): void
+    {
+        // Arrange
+        $product = ProductFactory::createOne(['name' => 'Produit 1', 'slug' => 'produit-1', 'price' => 1899]);
+
+        // Act
+        $component = $this->createLiveComponent(CartAdd::class, [
+            'product' => $product->_real(),
+            'quantity' => 4,
+        ], $this->client);
+        $component->call('add');
+        $component->set('added', false);
+
+        // Assert
+        $cart = static::getContainer()->get(CartRepository::class)->find(1);
+        $this->assertEquals(1, $cart->getCartItems()->count());
+        $item = $cart->getCartItems()[0];
+        $this->assertEquals(4, $item->getQuantity());
+
+        $this->assertStringContainsString('- 91,16 €', $component->render());
+    }
+
+    public function testCannotAddProductInCart(): void
+    {
+        // Arrange
+        $product = ProductFactory::createOne(['name' => 'Produit 1', 'slug' => 'produit-1', 'price' => 1899]);
+
+        // Act
+        $component = $this->createLiveComponent(CartAdd::class, [
+            'product' => $product->_real(),
+        ], $this->client);
+        $component->set('quantity', -1);
+        $this->expectException(UnprocessableEntityHttpException::class);
+        $component->call('add');
     }
 }

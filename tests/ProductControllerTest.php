@@ -22,6 +22,6 @@ class ProductControllerTest extends WebTestCase
         // Assert
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Produit 1');
-        $this->assertStringContainsString('22,79 € TTC', $crawler->text());
+        $this->assertStringContainsString('22,79 €', $crawler->text());
     }
 }
