@@ -3,7 +3,10 @@
 namespace App\Tests;
 
 use App\Factory\CartFactory;
+use App\Factory\CartItemFactory;
+use App\Factory\ProductFactory;
 use App\Factory\UserFactory;
+use App\Repository\CartRepository;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
@@ -37,12 +40,12 @@ class LoginControllerTest extends WebTestCase
         // Arrange
         $user = UserFactory::createOne(['email' => 'fiorella@boxydev.com']);
         $cart = CartFactory::createOne();
-
-        // Act
+        CartItemFactory::createOne(['cart' => $cart]);
         $this->mockSession(function ($session) use ($cart) {
             $session->set('cart', $cart->getId());
         });
 
+        // Act
         $this->client->request('GET', '/login');
         $this->client->submitForm('Connexion', [
             '_username' => 'fiorella@boxydev.com',
@@ -51,6 +54,38 @@ class LoginControllerTest extends WebTestCase
 
         // Assert
         $this->assertEquals($user->getId(), $cart->getUser()->getId());
+    }
+
+    public function testUserCanLoginWithACartAndACartInSession(): void
+    {
+        // Arrange
+        $user = UserFactory::createOne(['email' => 'fiorella@boxydev.com']);
+        $cart = CartFactory::createOne(['user' => $user]);
+        $cartInSession = CartFactory::createOne(['user' => null]);
+
+        $product1 = ProductFactory::createOne(['price' => 500]);
+        $product2 = ProductFactory::createOne(['price' => 1000]);
+
+        CartItemFactory::createOne(['product' => $product1, 'quantity' => 1, 'cart' => $cart]);
+        CartItemFactory::createOne(['product' => $product1, 'quantity' => 2, 'cart' => $cartInSession]);
+        CartItemFactory::createOne(['product' => $product2, 'quantity' => 1, 'cart' => $cartInSession]);
+
+        $this->mockSession(function ($session) use ($cartInSession) {
+            $session->set('cart', $cartInSession->getId());
+        });
+
+        // Act
+        $this->client->request('GET', '/login');
+        $this->client->submitForm('Connexion', [
+            '_username' => 'fiorella@boxydev.com',
+            '_password' => 'password',
+        ]);
+
+        // Assert
+        $this->assertNull(static::getContainer()->get(CartRepository::class)->find($cartInSession->getId()));
+        $items = $cart->_real()->getCartItems();
+        $this->assertEquals(3, $items->first()->getQuantity());
+        $this->assertEquals(1, $items->last()->getQuantity());
     }
 
     public function testUserCannotLoginWithErrors(): void

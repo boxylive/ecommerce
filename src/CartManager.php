@@ -130,7 +130,7 @@ class CartManager
         $cart = $this->current();
 
         if ($cartItem = $this->findItem($product)) {
-            $cartItem->setQuantity($cartItem->getQuantity() + 1);
+            $cartItem->setQuantity($cartItem->getQuantity() + $quantity);
         } else {
             $cartItem = new CartItem();
             $cartItem->setQuantity($quantity);
