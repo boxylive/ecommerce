@@ -1,0 +1,21 @@
+<div{{ attributes.defaults(stimulus_controller('appear')) }}>
+    <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8 mb-8">
+        {% if page > 1 %}
+            {% for p in 1..(page - 1) %}
+                {% for i in 1..perPage %}
+                    <div id="page-{{ p }}-{{ i }}"></div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        {% for product in computed.products %}
+            <twig:ProductCard :product="product" :key="product.id" id="page-{{ page }}-{{ loop.index }}" data-live-ignore />
+        {% endfor %}
+
+        {% if this.hasMore %}
+            <div data-appear-target="loader"
+                 data-action="appear->live#action"
+                 data-live-action-param="debounce(150)|load"></div>
+        {% endif %}
+    </div>
+</div>

@@ -3,9 +3,5 @@
 {% block title %}Ecommerce{% endblock %}
 
 {% block body %}
-    <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
-        {% for product in products %}
-            <twig:ProductCard :product="product" />
-        {% endfor %}
-    </div>
+    <twig:ProductList />
 {% endblock %}
