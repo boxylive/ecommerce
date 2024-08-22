@@ -3,7 +3,6 @@
 namespace App\Tests;
 
 use App\Factory\ProductFactory;
-use App\Twig\Components\ProductCard;
 use App\Twig\Components\ProductList;
 use Symfony\UX\LiveComponent\Test\InteractsWithLiveComponents;
 use Zenstruck\Foundry\Test\Factories;

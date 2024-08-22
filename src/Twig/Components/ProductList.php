@@ -28,7 +28,7 @@ final class ProductList
     #[LiveAction]
     public function load()
     {
-        $this->page++;
+        ++$this->page;
     }
 
     public function getProducts()
