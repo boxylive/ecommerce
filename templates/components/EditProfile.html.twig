@@ -1,0 +1,10 @@
+<div{{ attributes }}>
+    {{ form_start(form, { attr: {
+        'data-action': 'live#action:prevent',
+        'data-live-action-param': 'save'
+    } }) }}
+        {{ form_widget(form) }}
+
+        <twig:Button formnovalidate>Modifier</twig:Button>
+    {{ form_end(form) }}
+</div>

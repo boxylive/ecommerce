@@ -1,0 +1,13 @@
+{% extends 'layouts/account.html.twig' %}
+
+{% block title %}Mon compte - {{ parent() }}{% endblock %}
+
+{% block content %}
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <twig:Alert class="mb-6" :message="message" :type="type" />
+        {% endfor %}
+    {% endfor %}
+
+    <twig:EditProfile />
+{% endblock %}

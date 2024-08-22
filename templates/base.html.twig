@@ -78,7 +78,7 @@
                             <div class="flex flex-1 items-center justify-end">
                                 <!-- Account -->
                                 {% if app.user %}
-                                <a href="/logout" class="flex p-2 text-gray-400 hover:text-gray-500 lg:ml-4">
+                                <a href="{{ path('account') }}" class="flex p-2 text-gray-400 hover:text-gray-500 lg:ml-4">
                                     <twig:ux:icon name="account" class="h-6 w-6" fill="none" />
                                     <span class="text-sm font-semibold leading-6 text-gray-700 ml-2 hidden lg:inline">{{ app.user.email }}</span>
                                 </a>
