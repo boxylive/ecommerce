@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ product.name }}{% endblock %}
+{% block title %}{{ product.name }} - {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="md:grid grid-cols-4 gap-16">
