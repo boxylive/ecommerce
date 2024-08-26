@@ -1,10 +1,34 @@
 <div{{ attributes }}>
-    {{ form_start(form, { attr: {
-        'data-action': 'live#action:prevent',
-        'data-live-action-param': 'save'
-    } }) }}
-        {{ form_widget(form) }}
+    <div class="border rounded-md shadow">
+        {{ form_start(form, { attr: {
+            'data-action': 'live#action:prevent',
+            'data-live-action-param': 'save'
+        } }) }}
+            <div class="px-6 pt-6">
+                <div class="mb-6">
+                    <h2 class="text-xl font-medium">Modifier votre profil</h2>
+                    <p class="text-gray-500 text-sm mt-1">Mettre à jour votre profil.</p>
+                </div>
 
-        <twig:Button formnovalidate>Modifier</twig:Button>
-    {{ form_end(form) }}
+                <div class="lg:grid grid-cols-2 gap-x-8">
+                    <div>
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div>
+                        {{ form_row(form.currentPassword) }}
+                    </div>
+                    <div>
+                        {{ form_row(form.plainPassword.first) }}
+                    </div>
+                    <div>
+                        {{ form_row(form.plainPassword.second) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 text-right rounded-b-md px-6 py-4">
+                <twig:Button class="w-auto" formnovalidate>Modifier</twig:Button>
+            </div>
+        {{ form_end(form) }}
+    </div>
 </div>
