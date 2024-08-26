@@ -67,6 +67,24 @@ class EditProfileTest extends WebTestCase
         $this->assertEquals($oldHash, $user->getPassword());
     }
 
+    public function testUserCannotEditProfileWithoutEmail(): void
+    {
+        $this->expectException(UnprocessableEntityHttpException::class);
+
+        // Arrange
+        $user = UserFactory::createOne(['email' => 'fiorella@boxydev.com']);
+        $this->mockSession();
+
+        // Act
+        $component = $this->createLiveComponent(EditProfile::class)->actingAs($user->_real());
+        $component->submitForm(['edit_profile' => [
+            'email' => '',
+            'currentPassword' => 'password',
+        ]], 'save');
+
+        // Assert
+    }
+
     public function testUserCannotEditProfileWithoutPassword(): void
     {
         $this->expectException(UnprocessableEntityHttpException::class);

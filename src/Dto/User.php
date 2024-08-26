@@ -8,8 +8,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class User
 {
+    #[Assert\NotBlank]
     #[Assert\Email]
-    public string $email;
+    public ?string $email = null;
 
     #[SecurityAssert\UserPassword]
     public ?string $currentPassword = null;
