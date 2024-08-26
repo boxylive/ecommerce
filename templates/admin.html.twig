@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Ecommerce{% endblock %}</title>
+        <title>{% block title %}Administration Ecommerce{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/inter@5.0.18/index.min.css">
@@ -42,10 +42,8 @@
 
                         <div class="space-y-10 px-4 pb-8 pt-10">
                             <div class="space-y-6">
-                                <a href="{{ path('home') }}" class="-m-2 block p-2 font-medium text-gray-900">Accueil</a>
-                                {% if is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path('admin_dashboard') }}" class="-m-2 block p-2 font-medium text-gray-900">Administration</a>
-                                {% endif %}
+                                <a href="{{ path('admin_dashboard') }}" class="-m-2 block p-2 font-medium text-gray-900">Accueil</a>
+                                <a href="{{ path('home') }}" class="-m-2 block p-2 font-medium text-gray-900">Retour au site</a>
                             </div>
                         </div>
                     </div>
@@ -60,31 +58,38 @@
                                 <button class="-ml-2 rounded-md bg-white p-2 text-gray-400" @click="open = true">
                                     <twig:ux:icon name="menu" class="h-6 w-6" fill="none" />
                                 </button>
+
+                                <a href="#" class="ml-2 p-2 text-gray-400 hover:text-gray-500">
+                                    <twig:ux:icon name="search" class="h-6 w-6" fill="none" />
+                                </a>
                             </div>
 
                             <!-- Flyout menus -->
                             <div class="hidden lg:block lg:flex-1 lg:self-stretch">
                                 <div class="flex h-full space-x-8">
                                     {% set route = app.request.attributes.get('_route') %}
-                                    <a href="{{ path('home') }}" class="group relative z-10 flex items-center text-sm font-medium {{ route == 'home' ? 'text-blue-600' : 'text-gray-700' }} hover:text-blue-600">
+                                    <a href="{{ path('admin_dashboard') }}" class="group relative z-10 flex items-center text-sm font-medium {{ route == 'admin_dashboard' ? 'text-blue-600' : 'text-gray-700' }} hover:text-blue-600">
                                         Accueil
+                                        <span class="absolute inset-x-0 bottom-0 h-0.5 transition-colors duration-200 ease-out sm:mt-5 sm:translate-y-px sm:transform {{ route == 'admin_dashboard' ? 'bg-blue-600' }} group-hover:bg-blue-600"></span>
+                                    </a>
+                                    <a href="{{ path('home') }}" class="group relative z-10 flex items-center text-sm font-medium {{ route == 'home' ? 'text-blue-600' : 'text-gray-700' }} hover:text-blue-600">
+                                        Retour au site
                                         <span class="absolute inset-x-0 bottom-0 h-0.5 transition-colors duration-200 ease-out sm:mt-5 sm:translate-y-px sm:transform {{ route == 'home' ? 'bg-blue-600' }} group-hover:bg-blue-600"></span>
                                     </a>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <a href="{{ path('admin_dashboard') }}" class="group relative z-10 flex items-center text-sm font-medium {{ route == 'admin_dashboard' ? 'text-blue-600' : 'text-gray-700' }} hover:text-blue-600">
-                                            Administration
-                                            <span class="absolute inset-x-0 bottom-0 h-0.5 transition-colors duration-200 ease-out sm:mt-5 sm:translate-y-px sm:transform {{ route == 'admin_dashboard' ? 'bg-blue-600' }} group-hover:bg-blue-600"></span>
-                                        </a>
-                                    {% endif %}
                                 </div>
                             </div>
 
                             <!-- Logo -->
                             <a href="{{ path('home') }}" class="flex">
-                                <span class="font-bold text-2xl">Ecommerce</span>
+                                <span class="font-bold text-2xl">Administration Ecommerce</span>
                             </a>
 
                             <div class="flex flex-1 items-center justify-end">
+                                <!-- Search -->
+                                <a href="#" class="ml-6 hidden p-2 text-gray-400 hover:text-gray-500 lg:block">
+                                    <twig:ux:icon name="search" class="h-6 w-6" fill="none" />
+                                </a>
+
                                 <!-- Account -->
                                 {% if app.user %}
                                 <a href="{{ path('account') }}" class="flex p-2 text-gray-400 hover:text-gray-500 lg:ml-4">
@@ -96,13 +101,6 @@
                                     <twig:ux:icon name="account" class="h-6 w-6" fill="none" />
                                 </a>
                                 {% endif %}
-
-                                <!-- Cart -->
-                                <div class="ml-4 flow-root lg:ml-6">
-                                    <a href="{{ path('cart') }}" class="group -m-2 p-2">
-                                        <twig:CartHeader :quantity="cart.quantity" />
-                                    </a>
-                                </div>
                             </div>
                         </div>
                     </div>

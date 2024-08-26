@@ -17,6 +17,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         UserFactory::createOne(['email' => 'fiorella@boxydev.com']);
+        UserFactory::createOne(['email' => 'matthieu@boxydev.com', 'roles' => ['ROLE_ADMIN']]);
 
         // $images = $this->retriever->getImages();
 
