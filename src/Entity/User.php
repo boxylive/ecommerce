@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\String\UnicodeString;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -105,5 +106,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getFullName(): string
+    {
+        return (new UnicodeString($this->getEmail()))->before('@');
+    }
+
+    public function getAvatar(): ?string
+    {
+        if (!$this->getEmail()) {
+            return null;
+        }
+
+        $fallback = 'https://ui-avatars.com/api/?name='.$this->getFullName();
+
+        return 'https://unavatar.io/'.$this->getEmail().'?fallback='.urlencode($fallback);
     }
 }
