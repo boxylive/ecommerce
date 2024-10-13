@@ -16,15 +16,30 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function paginate($page = 1, $byPage = 4): array
+    public function paginate(int $page = 1, int $byPage = 4, ?string $field = null, ?string $order = null): array
     {
         $page = $page <= 0 ? 1 : $page;
 
-        return $this->createQueryBuilder('p')
+        $qb = $this->createQueryBuilder('p')
             ->setFirstResult(($page - 1) * $byPage)
-            ->setMaxResults($byPage)
+            ->setMaxResults($byPage);
+
+        $field = in_array($field, ['name', 'price']) ? $field : null;
+
+        if (!is_null($field)) {
+            $order = in_array($order, ['asc', 'desc']) ? $order : null;
+            $qb->orderBy('p.'.$field, $order);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function totalPages(int $byPage = 4): int
+    {
+        return ceil($this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
             ->getQuery()
-            ->getResult();
+            ->getSingleScalarResult() / $byPage);
     }
 
     //    /**
