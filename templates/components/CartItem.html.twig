@@ -8,7 +8,9 @@
                 <a href="{{ path('product_show', { slug: cartItem.product.slug }) }}">{{ cartItem.product.name }}</a>
             </h2>
             <p class="font-medium text-gray-900">{{ cartItem.product.price | price(20) | format_currency('EUR') }} TTC</p>
+            <p class="font-medium text-gray-900">{{ cartItem.product.price | price | format_currency('EUR') }} HT</p>
             <p class="font-medium text-gray-900">{{ (cartItem.product.price | price(20) * cartItem.quantity) | format_currency('EUR') }} TTC</p>
+            <p class="font-medium text-gray-900 mb-4">{{ (cartItem.product.price | price * cartItem.quantity) | format_currency('EUR') }} HT</p>
 
             {% if _errors.has('quantity') %}
                 <twig:Errors :errors="{
