@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\CartManager;
 use App\Twig\Components\CartHeader;
 use Symfony\UX\LiveComponent\Test\InteractsWithLiveComponents;
 use Zenstruck\Foundry\Test\Factories;
@@ -22,5 +23,21 @@ class CartHeaderTest extends WebTestCase
 
         // Assert
         $this->assertStringContainsString('22', $component->render());
+    }
+
+    public function testCanShowCartHeaderWithMock(): void
+    {
+        // Arrange
+        $this->client->disableReboot();
+        $cartManager = $this->createMock(CartManager::class);
+        $cartManager->method('quantity')->willReturn(22);
+        static::getContainer()->set(CartManager::class, $cartManager);
+
+        // Act
+        $component = $this->createLiveComponent(CartHeader::class, [], $this->client);
+
+        // Assert
+        $this->assertStringContainsString('22', $component->render());
+        $this->assertEquals(22, static::getContainer()->get(CartManager::class)->quantity());
     }
 }

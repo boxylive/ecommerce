@@ -14,7 +14,7 @@ final class CartHeader
     use DefaultActionTrait;
 
     #[LiveProp]
-    public int $quantity = 0;
+    public ?int $quantity = null;
 
     #[LiveListener('refreshCart')]
     public function refreshCart(#[LiveArg] int $quantity)
