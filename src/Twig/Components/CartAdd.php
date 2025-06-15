@@ -26,7 +26,7 @@ final class CartAdd
     #[Assert\Positive]
     public ?int $quantity = null;
 
-    #[LiveProp(writable: true)]
+    #[LiveProp]
     public bool $added = false;
 
     #[LiveAction]
