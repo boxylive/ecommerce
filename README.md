@@ -41,3 +41,9 @@ php bin/console --env=test d:s:c
 php bin/phpunit
 vendor/bin/php-cs-fixer fix --dry-run --diff
 ```
+
+## Todos
+
+Quelques idées pour le projet :
+
+- Mettre en place l'intégration continue avec Github Actions

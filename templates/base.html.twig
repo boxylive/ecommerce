@@ -60,6 +60,10 @@
                                 <button class="-ml-2 rounded-md bg-white p-2 text-gray-400" @click="open = true">
                                     <twig:ux:icon name="menu" class="h-6 w-6" fill="none" />
                                 </button>
+
+                                <a href="#" class="ml-2 p-2 text-gray-400 hover:text-gray-500">
+                                    <twig:ux:icon name="search" class="h-6 w-6" fill="none" />
+                                </a>
                             </div>
 
                             <!-- Flyout menus -->
@@ -85,6 +89,11 @@
                             </a>
 
                             <div class="flex flex-1 items-center justify-end">
+                                <!-- Search -->
+                                <a href="#" class="ml-6 hidden p-2 text-gray-400 hover:text-gray-500 lg:block">
+                                    <twig:ux:icon name="search" class="h-6 w-6" fill="none" />
+                                </a>
+
                                 <!-- Account -->
                                 {% if app.user %}
                                 <a href="{{ path('account') }}" class="flex p-2 text-gray-400 hover:text-gray-500 lg:ml-4">
