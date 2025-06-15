@@ -92,6 +92,7 @@ class CartManager
     {
         $user = $this->user();
 
+        // @todo Get carts from user
         if ($user) {
             $this->cart = $this->cart ?: $this->entityManager->getRepository(Cart::class)
                 ->findAllByUserWithItems($user->getId())[0] ?? null;
